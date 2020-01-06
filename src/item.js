@@ -1,9 +1,10 @@
 class Item {
-  constructor(itemId, productName, quantity, price) {
+  constructor(itemId, productName, quantity, price, isSpecial) {
     this._itemId = itemId;
     this._productName = productName;
     this._quantity = quantity;
     this._price = price;
+    this._isSpecial = isSpecial;
   }
 
   get quantity() {
@@ -22,8 +23,16 @@ class Item {
     return this._price;
   }
 
+  get isSpecial() {
+    return this._isSpecial;
+  }
+
   totalPrice() {
     return this._price * this._quantity;
+  }
+
+  totalDiscountPrice() {
+    return this.totalPrice() * .5;
   }
 }
 
