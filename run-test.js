@@ -1,4 +1,5 @@
-var Jasmine = require('jasmine');
+import Jasmine from 'jasmine';
+
 var jasmine = new Jasmine();
 
 jasmine.loadConfig({
