@@ -31,7 +31,7 @@ class Item {
     return this._price * this._quantity;
   }
 
-  totalDiscountPrice() {
+  totalDiscount() {
     return this.totalPrice() * .5;
   }
 }

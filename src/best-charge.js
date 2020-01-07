@@ -28,17 +28,39 @@ function printReceipt(allSelectedItems) {
     .filter((item) => item.isSpecial);
 
   const halfPriedProductsName = halfPricedProducts
-    .map((item) => item.productName).join(', ');
+    .map((item) => item.productName).join('，');
 
-  const totalDiscountPrice = halfPricedProducts
-    .reduce((totalPrice, product) => totalPrice + product.totalDiscountPrice(), 0);
+  const totalDiscount = halfPricedProducts
+    .reduce((totalPrice, product) => totalPrice + product.totalDiscount(), 0);
+
+  let totalPrice = allSelectedItems.reduce((total, item) => total + item.totalPrice(), 0);
+  let extraDiscountPrice = totalPrice;
+  let discountMessage = '';
+  if (totalPrice > 30) {
+    extraDiscountPrice = totalPrice - 6;
+    discountMessage = '满30减6元，省6元';
+  }
+
+  let realPrice = extraDiscountPrice;
+  let priceAfterDiscount = totalPrice - totalDiscount;
+  if (extraDiscountPrice > priceAfterDiscount) {
+    realPrice = priceAfterDiscount;
+    discountMessage = `指定菜品半价(${halfPriedProductsName})，省${totalDiscount}元`
+  }
+
+  let message = '-----------------------------------';
+  if (totalPrice !== realPrice) {
+    message += `
+使用优惠:
+${discountMessage}
+-----------------------------------`;
+  }
 
   return `
-  ============= 订餐明细 =============
-  ${orderDetails}
-  -----------------------------------
-  使用优惠:
-  指定菜品半价(${halfPriedProductsName}), 省${totalDiscountPrice}元
-  ===================================
-  `;
+============= 订餐明细 =============
+${orderDetails}
+${message}
+总计：${realPrice}元
+===================================
+`;
 }
